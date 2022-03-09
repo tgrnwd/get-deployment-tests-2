@@ -1,0 +1,25 @@
+name: "Build for Demo"
+on:
+  workflow_dispatch:
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - src/**
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        run: |
+          echo "TIMESTAMP=$(date -u '+%Y.%m.%d.%H%M%S')" >> timestamp.txt
+
+      - name: Upload App Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: timestamp.txt
+          path: timestamp.txt
