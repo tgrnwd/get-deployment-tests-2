@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Build
         run: |
-          echo "TIMESTAMP=$(date -u '+%Y.%m.%d.%H%M%S')" >> timestamp.txt
+          echo "$(date -u '+%Y.%m.%d.%H%M%S')" >> timestamp.txt
 
       - name: Upload App Artifacts
         uses: actions/upload-artifact@v2
