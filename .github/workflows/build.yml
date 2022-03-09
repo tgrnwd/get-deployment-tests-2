@@ -1,6 +1,4 @@
 name: "Build for Demo"
-on:
-  workflow_dispatch:
 
 on:
   push:

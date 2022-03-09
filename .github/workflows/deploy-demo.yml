@@ -1,6 +1,4 @@
 name: "Deploy to Demo"
-on:
-  workflow_dispatch:
 
 on:
   workflow_run:
