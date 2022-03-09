@@ -19,7 +19,7 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
-          commit: ${{ steps.get-deployment-action.outputs.ref }}
+          commit: ${{ steps.get-deployment-action.outputs.sha }}
           workflow: build.yml
           workflow_conclusion: success
           name: timestamp.txt
