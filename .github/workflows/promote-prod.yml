@@ -1,4 +1,4 @@
-name: "Promote to Stage"
+name: "Promote to Prod"
 on:
   workflow_dispatch:
 
