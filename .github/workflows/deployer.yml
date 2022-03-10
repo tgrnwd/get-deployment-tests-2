@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: echo stuff
         run: |
-          echo ${{ github.event.release }}
+          echo ${{ toJSON(github.event) }}
 
   demo:
     runs-on: ubuntu-latest
