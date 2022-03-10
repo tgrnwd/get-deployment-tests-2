@@ -15,7 +15,7 @@ jobs:
       - uses: cardinalby/git-get-release-action@v1
         id: get-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
+          GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
         with:
           commitSha: ${{ steps.get-deployment-action.outputs.sha }}
 
