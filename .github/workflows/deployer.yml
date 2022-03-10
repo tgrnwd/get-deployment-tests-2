@@ -6,7 +6,7 @@ on:
     types: [completed]
 
   release:
-    types: [published,prereleased]
+    types: [published,prereleased,released]
 
   workflow_dispatch:
     inputs:
