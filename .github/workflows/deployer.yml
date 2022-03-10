@@ -6,7 +6,7 @@ on:
     types: [ completed ]
 
   release:
-    types: [ published, released ]
+    # types: [ published, released ]
 
   workflow_dispatch:
     inputs:
