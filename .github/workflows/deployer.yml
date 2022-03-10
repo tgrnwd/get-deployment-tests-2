@@ -29,12 +29,12 @@ on:
         required: true 
 
 jobs:
-  start:
-    runs-on: ubuntu-latest
-    steps:
-      - name: echo stuff
-        run: |
-          echo ${{ toJSON(github.event) }}
+  # start:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: echo stuff
+  #       run: |
+  #         echo ${{ toJSON(github.event) }}
 
   demo:
     runs-on: ubuntu-latest
