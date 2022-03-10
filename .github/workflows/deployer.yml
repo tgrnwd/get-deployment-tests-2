@@ -54,7 +54,7 @@ jobs:
 
   stage:
     runs-on: ubuntu-latest
-    if: ${{ github.event.release.prerelease == 'true' }}
+    if: ${{ github.event.release.prerelease == true }}
     environment: stage
     steps:
     - uses: robinraju/release-downloader@v1.3
@@ -69,7 +69,7 @@ jobs:
 
   prod:
     runs-on: ubuntu-latest
-    if: ${{ github.event.release.prerelease == 'false' }}
+    if: ${{ github.event.release.prerelease == fakse }}
     environment: prod
     steps:
     - uses: robinraju/release-downloader@v1.3
