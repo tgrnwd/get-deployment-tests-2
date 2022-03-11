@@ -24,21 +24,13 @@ jobs:
           workflow_conclusion: success
           name: timestamp.txt
 
-      - name: Set Release Version from the artifact
-        id: release_version_step
+      - name: Get current draft release version and upload URL
         run: |
-          echo "RELEASE_VERSION=$(cat timestamp.txt)" >> $GITHUB_ENV
-
-      - name: Create Release
-        uses: actions/create-release@v1
-        id: create_release
+          RELEASE_VERSION=$(hub release -f "%T (%S) %n" --include-drafts | grep " (draft)" | awk '{print $1}' | xargs -t -n1 echo)
+          echo "RELEASE_VERSION=$(echo $RELEASE_VERSION)" >> $GITHUB_ENV
+          echo "RELEASE_UPLOADURL=$(hub release show $RELEASE_VERSION --format '%uA')" >> $GITHUB_ENV
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
-        with:
-          tag_name: ${{ env.RELEASE_VERSION }}
-          release_name: ${{ env.RELEASE_VERSION }}
-          draft: true
-          prerelease: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Release Asset
         id: upload-release-asset 
@@ -46,14 +38,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          upload_url: ${{ env.RELEASE_UPLOADURL }}
           asset_path: ./timestamp.txt
           asset_name: timestamp.txt
           asset_content_type: text/plain
 
-      - name: Publish release
-        uses: StuYarrow/publish-release@v1
+      - name: Change current draft release to prerelease
+        run: hub release edit ${{ env.RELEASE_VERSION }} --draft=false -m ""
         env:
           GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
-        with:
-          id: ${{ steps.create_release.outputs.id }}
