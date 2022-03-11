@@ -24,3 +24,20 @@ jobs:
         with:
           name: timestamp.txt
           path: timestamp.txt
+
+      - name: Remove any current draft releases
+        run: |
+          RELEASENUMBER=$(hub release -f "%T (%S) %n" --include-drafts | grep " (draft)" | awk '{print $1}' | xargs -t -n1 echo)
+          if [[ $RELEASENUMBER = *[!\ ]* ]]; then
+            hub release delete $RELEASENUMBER
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+        
+      - name: Generate Release Version
+        run: echo "RELEASE_VERSION=$(date -u '+%Y.%m.%d.%H%M%S')" >> $GITHUB_ENV
+
+      - name: Create Draft Release
+        run: gh release create ${{ env.RELEASE_VERSION }} -d -p --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
